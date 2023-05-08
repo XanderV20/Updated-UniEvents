@@ -95,9 +95,13 @@ function signin() {
 }
 
 function home() {
-    location.href = "UniEvents.html";
+    location.href = "UniEvents.php";
 }
 
 function signup() {
     location.href = "SignUp.php";
+}
+
+function events() {
+    location.href = "Events.php";
 }

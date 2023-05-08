@@ -18,9 +18,9 @@
       <h3>Sign up</h3>
     <table>
       <tr><td>Email: </td><td><input type="text" name="email" autofocus required></td></tr>
-      <tr><td>Verify Email: </td><td><input type="text" name="verify" requited></td></tr>
-      <tr><td>Username: </td><td><input type="text" name="username" required></td></tr>
+      <tr><td>Username: </td><td><input type="text" name="username" requited></td></tr>
       <tr><td>Password: </td><td><input type="password" name="password" required></td></tr>
+      <tr><td>Confirm Password: </td><td><input type="password" name="confirm" required></td></tr>
     </table>
     <input type="submit" value="Submit">
     </form>
@@ -28,18 +28,18 @@
     <?php 
     if ($_SERVER["REQUEST_METHOD"] == "GET"){
         if (isset($_COOKIE["loggedIn"])) {
-            header("Location: UniEvents.html");
+            header("Location: UniEvents.php");
             die;
         }
     }
     else if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $email = $_POST["email"];
-        $verify = $_POST["verify"];
         $username = $_POST["username"];
         $password = $_POST["password"];
+        $confirm = $_POST["confirm"];
 
-        if ($email != $verify) {
-            echo "<p style='color:red;text-align:center'>Email does not match</p>";
+        if ($password != $confirm) {
+            echo "<p style='color:red;text-align:center'>Passwords do not match</p>";
             die;
         } 
         #else if (email is not a university email) then invalid email
@@ -59,7 +59,7 @@
         if ($result->num_rows == 0) {
             $insert = $mysqli->query("INSERT INTO passwords VALUES ('$username', '$password', '$email')") or die($mysqli->error);
             setcookie("loggedIn", $username, "time() + 3600", "/");
-            header("Location: UniEvents.html");
+            header("Location: UniEvents.php");
             die;
         } else {
             for ($i = 0; $i < $result->num_rows; $i++) {
@@ -70,8 +70,8 @@
                 }
             }
             $insert = $mysqli->query("INSERT INTO passwords VALUES ('$username', '$password', '$email')") or die($mysqli->error);
-            setcookie("loggedIn", "true", "time() + 3600", "/");
-            header("Location: UniEvents.html");
+            setcookie("loggedIn", $username, "time() + 3600", "/");
+            header("Location: UniEvents.php");
             die;
         }
     }

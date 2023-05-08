@@ -12,7 +12,13 @@
 
     <div class="navbar">
         <img src="New Logo.png" alt ="UniEvents Logo" height="50" width="150" onclick="home()"></img>
-        <button class="navbtn" id="SignIn" onclick="signin()">Sign in</button>
+<?php 
+if (isset($_COOKIE["loggedIn"])) {
+  echo "<button class='navbtn' id='Events' onclick='events()'>Add Event</button>";
+} else {
+  echo "<button class='navbtn' id='SignIn' onclick='signin()'>Sign in</button>";
+}
+?>  
     </div>
 
     <div class="calendar">

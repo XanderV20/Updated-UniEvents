@@ -26,7 +26,7 @@
     <?php 
     if ($_SERVER["REQUEST_METHOD"] == "GET"){
         if (isset($_COOKIE["loggedIn"])) {
-            header("Location: UniEvents.html");
+            header("Location: UniEvents.php");
             die;
         }
     } else if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -52,7 +52,7 @@
                 if ($row[0] == $username) {
                     if ($row[1] == $password) {
                         setcookie("loggedIn", $username, "time() + 3600", "/");
-                        header("Location: UniEvents.html");
+                        header("Location: UniEvents.php");
                         die;
                     }
                 }
