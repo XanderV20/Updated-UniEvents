@@ -42,7 +42,7 @@
             echo "<p style='color:red;text-align:center'>Passwords do not match</p>";
             die;
         } 
-        #else if (email is not a university email) then invalid email
+        #check if (email is not a university email) then invalid email
 
         $mysqli = new mysqli("spring-2023.cs.utexas.edu", "cs329e_bulko_xander", "canyon-Milan5lung", "cs329e_bulko_xander");
 
@@ -58,7 +58,7 @@
 
         if ($result->num_rows == 0) {
             $insert = $mysqli->query("INSERT INTO passwords VALUES ('$username', '$password', '$email')") or die($mysqli->error);
-            setcookie("loggedIn", $username, "time() + 3600", "/");
+            setcookie("loggedIn", $username, time() + 3600, "/");
             header("Location: UniEvents.php");
             die;
         } else {
@@ -67,10 +67,13 @@
                 if ($row[0] == $username) {
                     echo "<p style='color:red;text-align:center'>Username already taken. Please chose another.</p>";
                     die;
+                } else if ($row[2] == $email) {
+                    echo "<p style='color:red;text-align:center'>That email is already associated with an account</p>";
+                    die;
                 }
             }
             $insert = $mysqli->query("INSERT INTO passwords VALUES ('$username', '$password', '$email')") or die($mysqli->error);
-            setcookie("loggedIn", $username, "time() + 3600", "/");
+            setcookie("loggedIn", $username, time() + 3600, "/");
             header("Location: UniEvents.php");
             die;
         }

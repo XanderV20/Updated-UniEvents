@@ -51,7 +51,7 @@
                 $row = $result->fetch_row();
                 if ($row[0] == $username) {
                     if ($row[1] == $password) {
-                        setcookie("loggedIn", $username, "time() + 3600", "/");
+                        setcookie("loggedIn", $username, time() + 3600, "/");
                         header("Location: UniEvents.php");
                         die;
                     }

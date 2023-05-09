@@ -28,7 +28,7 @@ function generate() {
             string += "<div class='date'></div>\n"
         } else {
             if (i == current[1] + start - 1) {
-                string += "<div class='date' style='color:#BF5700'>" + dayI + "</div>\n";
+                string += "<div class='date' style='color:#BF5700;background-color:#C2C2C2'>" + dayI + "</div>\n";
             } else {
                 string += "<div class='date'>" + dayI + "</div>\n";
             }
@@ -76,7 +76,7 @@ function updateMonth(direction) {
             string += "<div class='date'></div>\n"
         } else {
             if (i == current[1] + start - 1 && year == current[2] && count == current[0]) {
-                string += "<div class='date' style='color:#BF5700'>" + dayI + "</div>\n";
+                string += "<div class='date' style='color:#BF5700;background-color:#C2C2C2'>" + dayI + "</div>\n";
             } else {
                 string += "<div class='date'>" + dayI + "</div>\n";
             }
