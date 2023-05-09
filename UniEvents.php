@@ -42,12 +42,35 @@ if (isset($_COOKIE["loggedIn"])) {
     
     <div class="column">
       <div class="eventHeader">Events</div>
-      <div class="events">
-        <div class="event">
+      <div class="events"> 
+      <!--TODO: add event count for that day, label in events section showing the selected date, and ajax-->
+        <?php
+
+        $mysqli = new mysqli("spring-2023.cs.utexas.edu", "cs329e_bulko_xander", "canyon-Milan5lung", "cs329e_bulko_xander");
+
+        $date = date("Y-m-d");
+        $list = $mysqli->query("SELECT * FROM events WHERE eventDate='$date' ORDER BY eventTime") or die($mysqli->error);
+
+        if ($list->num_rows == 0) {
+          echo "<h4>No events on this date</h4>";
+        } else {
+          for ($i = 0; $i < $list->num_rows; $i++) {
+            $row = $list->fetch_row();
+            echo "<div class='event'>";
+            echo "<h4>$row[1]</h4>";
+            echo "<p>Time: $row[3]</p>";
+            echo "<p>Location: $row[4]</p>";
+            echo "<p>Description: $row[5]</p>";
+            echo "</div>";
+          }
+        }
+
+        ?>
+        <!-- <div class="event">
           <h4>Event Name</h4>
           <p>Description</p>
           <p>Number of guests</p>
-        </div>
+        </div> -->
       </div>
     </div>
     
