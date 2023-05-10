@@ -4,45 +4,9 @@ var index = new Date();
 var current = [index.getMonth(), index.getDate(), index.getFullYear()];
 var year = current[2];
 var count = index.getMonth();
+let selected = "";
 
-function generate() {
-    var Cmonth = month[current[0]];
-    var day = days[current[1]];
-    if (year%4 == 0 && (year%100 != 0 || year%400 == 0) && Cmonth=="February") {
-        day = 29;
-    }
-    var start = new Date(Cmonth + " 1, " + current[2] + " 11:00:00").getDay();
-    var last = new Date(Cmonth + " " + day + ", " + current[2] + " 11:00:00").getDay();
-    var fill = 6 - last;
-    document.getElementById("Month").innerHTML = Cmonth + " " + year;
-    var chart = document.getElementById("days");
-    var string = "";
-
-    for (let i = 0; i < day + start + fill; i++) {
-        var dayI = i - start + 1;
-        if (i % 7 == 0) {
-            string += "<div class='week'>\n";
-        }
-
-        if (i < start || i - day - start >= 0) {
-            string += "<div class='date'></div>\n"
-        } else {
-            if (i == current[1] + start - 1) {
-                string += "<div class='date' style='color:#BF5700;background-color:#C2C2C2'>" + dayI + "</div>\n";
-            } else {
-                string += "<div class='date'>" + dayI + "</div>\n";
-            }
-        }
-
-        if (i % 7 == 6) {
-            string += "</div>\n";
-        }
-    }
-
-    chart.innerHTML = string;
-}
-
-function updateMonth(direction) {
+function generate(direction) {
     count += direction;
     if (count > 11) {
         count -= 12;
@@ -76,9 +40,11 @@ function updateMonth(direction) {
             string += "<div class='date'></div>\n"
         } else {
             if (i == current[1] + start - 1 && year == current[2] && count == current[0]) {
-                string += "<div class='date' style='color:#BF5700;background-color:#C2C2C2'>" + dayI + "</div>\n";
+                string += "<div class='date' style='color:#BF5700;background-color:#C2C2C2' id='" + year + "-" + (count+1).toString().padStart(2,"0") + "-" + dayI.toString().padStart(2,"0") + "' onclick='ajaxFunction(this.id)'>" + dayI + "</div>\n";
+                selected = year + "-" + (count+1).toString().padStart(2,"0") + "-" + dayI.toString().padStart(2,"0");
+                document.getElementById("date").innerHTML = (count+1) + "/" + dayI + "/" + year; 
             } else {
-                string += "<div class='date'>" + dayI + "</div>\n";
+                string += "<div class='date' id='" + year + "-" + (count+1).toString().padStart(2,"0") + "-" + dayI.toString().padStart(2,"0") + "' onclick='ajaxFunction(this.id)'>" + dayI + "</div>\n";
             }
         }
 
@@ -104,4 +70,44 @@ function signup() {
 
 function events() {
     location.href = "Events.php";
+}
+
+function ajaxFunction(date) {
+    var ajaxRequest;
+    ajaxRequest = new XMLHttpRequest();
+
+    ajaxRequest.onreadystatechange = function() {
+        if(ajaxRequest.readyState == 4) {
+            var ajaxDisplay = document.getElementById('events');
+            ajaxDisplay.innerHTML = ajaxRequest.responseText;
+        }
+    }
+
+    previous = document.getElementById(selected);
+    previous.style.color = "black";
+    previous.style.backgroundcolor = "white";
+    selected = date;
+    clicked = document.getElementById(selected);
+    clicked.style.color = "#BF5700";
+    clicked.style.backgroundcolor = "#C2C2C2";
+
+    dateArray = date.split("-");
+    visibleDate = "";
+    if (dateArray[1][0] == 0) {
+        visibleDate += dateArray[1][1] + "/";
+    } else {
+        visibleDate += dateArray[1] + "/";
+    }
+
+    if (dateArray[2][0] == 0) {
+        visibleDate += dateArray[2][1] + "/" + dateArray[0];
+    } else {
+        visibleDate += dateArray[2] + "/" + dateArray[0];
+    }
+
+    document.getElementById("date").innerHTML = visibleDate;
+
+    var queryString = "?date=" + date;
+    ajaxRequest.open("GET", "update.php" + queryString, true);
+    ajaxRequest.send(null);
 }

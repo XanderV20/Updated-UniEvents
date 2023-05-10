@@ -8,7 +8,7 @@
     <script src="functions.js" defer></script>
   </head>
 
-  <body onload="generate()">
+  <body onload="generate(0)">
 
     <div class="navbar">
         <img src="New Logo.png" alt ="UniEvents Logo" height="50" width="150" onclick="home()"></img>
@@ -23,9 +23,9 @@ if (isset($_COOKIE["loggedIn"])) {
 
     <div class="calendar">
         <div class="month">
-            <div class="arrow" onclick="updateMonth(-1)"><</div>
+            <div class="arrow" onclick="generate(-1)"><</div>
             <div id="Month">Month</div>
-            <div class="arrow" onclick="updateMonth(1)">></div>
+            <div class="arrow" onclick="generate(1)">></div>
         </div>
         <div class="weekdays">
             <div class="day">Sun</div>
@@ -47,7 +47,7 @@ if (isset($_COOKIE["loggedIn"])) {
         <div id="count">1-1 of 1</div>
       </div>
 
-      <div class="events"> 
+      <div class="events" id="events"> 
       <!--TODO: add ajax-->
         <?php
 
