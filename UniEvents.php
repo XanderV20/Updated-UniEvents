@@ -41,9 +41,14 @@ if (isset($_COOKIE["loggedIn"])) {
     </div>
     
     <div class="column">
-      <div class="eventHeader">Events</div>
+      <div class="eventHeader">
+        <div id="date">5/9/2023</div>
+        <div>Events</div>
+        <div id="count">1-1 of 1</div>
+      </div>
+
       <div class="events"> 
-      <!--TODO: add event count for that day, label in events section showing the selected date, and ajax-->
+      <!--TODO: add ajax-->
         <?php
 
         $mysqli = new mysqli("spring-2023.cs.utexas.edu", "cs329e_bulko_xander", "canyon-Milan5lung", "cs329e_bulko_xander");
@@ -66,11 +71,6 @@ if (isset($_COOKIE["loggedIn"])) {
         }
 
         ?>
-        <!-- <div class="event">
-          <h4>Event Name</h4>
-          <p>Description</p>
-          <p>Number of guests</p>
-        </div> -->
       </div>
     </div>
     
