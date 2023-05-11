@@ -16,6 +16,10 @@ function generate(direction) {
         year -= 1;
     }
 
+    if (direction == 1 || direction == -1) {
+        selected = year + "-" + (count+1).toString().padStart(2,"0") + "-01";
+    }
+
     var Cmonth = month[count];
     var day = days[count];
 
@@ -79,13 +83,15 @@ function ajaxFunction(date) {
     ajaxRequest.onreadystatechange = function() {
         if(ajaxRequest.readyState == 4) {
             var ajaxDisplay = document.getElementById('events');
-            ajaxDisplay.innerHTML = ajaxRequest.responseText;
+            let response = ajaxRequest.responseText.split(";");
+            ajaxDisplay.innerHTML = response[0];
+            document.getElementById('count').innerHTML = response[1];
         }
     }
 
     previous = document.getElementById(selected);
-    previous.style.color = "black";
-    previous.style.backgroundcolor = "white";
+    previous.style.color = null;
+    previous.style.backgroundcolor = null;
     selected = date;
     clicked = document.getElementById(selected);
     clicked.style.color = "#BF5700";
